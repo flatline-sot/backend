@@ -3,9 +3,9 @@ from django.db import models
 
 class Flat(models.Model):
     name = models.CharField(max_length=256)
-    powershop_user = models.CharField(max_length=256)
-    powershop_password = models.CharField(max_length=50)
     numberOfMembers = models.PositiveSmallIntegerField()
+    oauth_token = models.CharField(max_length=40, blank=True, null=True)
+    oauth_token_secret = models.CharField(max_length=40, blank=True, null=True)
 
     def __unicode__(self):              # __unicode__ on Python 2
         return self.name
