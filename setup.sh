@@ -43,7 +43,7 @@ fi
 
 # Sync Github
 echo 'Cloning our awesome code repo!'
-(cd $PROJECT ;
+(cd /srv/backend ;
  git config --global push.default simple
  pip install -r requirements.txt
 )
