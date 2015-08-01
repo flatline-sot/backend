@@ -11,6 +11,8 @@ from api.serializers import FlatSerializer, UserSerializer, BillSerializer, User
 
 from oauth import get_authorization_url
 
+from django.conf import settings
+
 class FlatViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows flats to be viewed.
@@ -23,12 +25,10 @@ class FlatViewSet(viewsets.ModelViewSet):
         oauth_token, oauth_token_secret = get_authorization_url()
 
         return Response({'oauth_token': oauth_token,
-                         'oauth_token_secret': oauth_token_secret})
-
-
-
-
-
+                         'oauth_token_secret': oauth_token_secret,
+                         'oauth_authorization_url': settings.POWERSHOP_API_ROOT + 'oauth/authorize?oauth_token={}'
+                        .format(oauth_token)
+                         })
 
 
 class UserViewSet(viewsets.ModelViewSet):
