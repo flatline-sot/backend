@@ -14,7 +14,7 @@ Vagrant.configure(2) do |config|
   # MySQL
   config.vm.network "forwarded_port", guest: 3306, host: 3306
 
-  config.vm.synced_folder ".", "/srv/project"
+  config.vm.synced_folder ".", "/srv/backend"
 
   config.vm.provision :shell, path: "setup.sh", privileged: false
 end
