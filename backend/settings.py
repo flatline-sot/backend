@@ -111,3 +111,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+POWERSHOP_API_ROOT = 'https://stable.test.powershop.co.nz/external_api/'
