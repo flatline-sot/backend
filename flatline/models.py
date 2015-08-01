@@ -15,6 +15,7 @@ class User(models.Model):
     name = models.CharField(max_length=256)
     email = models.EmailField(max_length=254)
     password = models.CharField(max_length=50)
+    flat = models.ForeignKey(Flat, blank=True, null=True)
 
     def __unicode__(self):              # __unicode__ on Python 2
         return self.name
@@ -25,6 +26,7 @@ class Bill(models.Model):
     end = models.DateField()
     cost = models.DecimalField(max_digits=6, decimal_places=2)
     cost_per_user = models.DecimalField(max_digits=6, decimal_places=2, blank=True)
+    flat = models.ForeignKey(Flat, blank=True, null=True)
 
     def __unicode__(self):              # __unicode__ on Python 2
         return str(self.start)
