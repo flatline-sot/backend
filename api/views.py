@@ -3,6 +3,9 @@ from django.shortcuts import render
 # Create your views here.
 
 from rest_framework import viewsets
+from rest_framework.decorators import detail_route
+
+import datetime
 
 from flatline.models import Flat, User, Bill, UserBill
 from api.serializers import FlatSerializer, UserSerializer, BillSerializer, UserBillSerializer
@@ -38,3 +41,5 @@ class BillViewSet(viewsets.ModelViewSet):
     """
     queryset = Bill.objects.all()
     serializer_class = BillSerializer
+
+    

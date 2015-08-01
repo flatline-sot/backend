@@ -17,7 +17,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class BillSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Bill
-        fields = ('pk', 'start', 'end', 'cost', 'cost_per_user')
+        fields = ('pk', 'start', 'end', 'cost', 'cost_per_user', 'flat')
 
 
 class UserBillSerializer(serializers.HyperlinkedModelSerializer):
