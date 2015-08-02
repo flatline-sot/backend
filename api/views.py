@@ -9,6 +9,8 @@ from rest_framework.response import Response
 import datetime
 import json
 
+from powershop_api import test
+
 from flatline.models import Flat, User, Bill, UserBill
 from api.serializers import FlatSerializer, UserSerializer, BillSerializer, UserBillSerializer
 
@@ -41,6 +43,8 @@ class FlatViewSet(viewsets.ModelViewSet):
         flat.oauth_token_secret = secret
 
         flat.save()
+
+        test()
 
         return Response({'okay': True})
 
