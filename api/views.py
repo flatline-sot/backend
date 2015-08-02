@@ -1,3 +1,4 @@
+from django.core.serializers.json import DjangoJSONEncoder
 from django.shortcuts import render
 
 # Create your views here.
@@ -6,6 +7,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 import datetime
+import json
 
 from flatline.models import Flat, User, Bill, UserBill
 from api.serializers import FlatSerializer, UserSerializer, BillSerializer, UserBillSerializer
@@ -17,6 +19,30 @@ class FlatViewSet(viewsets.ModelViewSet):
     """
     queryset = Flat.objects.all()
     serializer_class = FlatSerializer
+
+    @detail_route(methods=['get'], url_path='bills')
+    def bills(self, request, pk=None):
+
+        bills = Bill.objects.filter(flat__pk=pk)
+
+        serializer = BillSerializer(bills, many=True)
+
+        return Response(serializer.data)
+
+    @detail_route(methods=['post'], url_path='post_access_tokens')
+    def post_access_tokens(self, request, pk=None):
+
+        token = request.POST.get('token')
+        secret = request.POST.get('secret')
+
+        flat = Flat.objects.get(pk=pk)
+
+        flat.oauth_token = token
+        flat.oauth_token_secret = secret
+
+        flat.save()
+
+        return Response({'okay': True})
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -42,17 +68,19 @@ class BillViewSet(viewsets.ModelViewSet):
     queryset = Bill.objects.all()
     serializer_class = BillSerializer
 
+
+
     @detail_route(methods=['get'], url_path='pay')
     def user_bill(self, request, pk=None):
 
-        user = User.objects.get(pk=pk)
-        user_name = user.name
+        bill = Bill.objects.get(pk=pk)
 
-        flat = user.flat
+        flat = bill.flat
 
-        bills = Bill.objects.all()
-        bill = bills[0]
-        bill.save()
+        #user_pk = request.user.pk
+
+        user = User.objects.get(pk=pk)  # Interesting
+        user_name = user.pk
 
         date = datetime.datetime.now()
 
@@ -62,4 +90,5 @@ class BillViewSet(viewsets.ModelViewSet):
 
         return Response({'has_paid': True,
                          'pk': pk,
-                         'user': user_name})
+                         'user': user_name,
+                         'cost': bill.cost})
