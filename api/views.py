@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 from rest_framework import viewsets
 from rest_framework.decorators import detail_route
-
+from rest_framework.response import Response
 import datetime
 
 from flatline.models import Flat, User, Bill, UserBill
@@ -42,4 +42,24 @@ class BillViewSet(viewsets.ModelViewSet):
     queryset = Bill.objects.all()
     serializer_class = BillSerializer
 
-    
+    @detail_route(methods=['get'], url_path='pay')
+    def user_bill(self, request, pk=None):
+
+        user = User.objects.get(pk=pk)
+        user_name = user.name
+
+        flat = user.flat
+
+        bills = Bill.objects.all()
+        bill = bills[0]
+        bill.save()
+
+        date = datetime.datetime.now()
+
+        user_bill = UserBill(user=user, bill=bill, date_paid=date)
+
+        user_bill.save()
+
+        return Response({'has_paid': True,
+                         'pk': pk,
+                         'user': user_name})

@@ -22,8 +22,8 @@ class User(models.Model):
 
 
 class Bill(models.Model):
-    start = models.DateField()
-    end = models.DateField()
+    start = models.DateField(blank=True, null=True)
+    end = models.DateField(blank=True, null=True)
     cost = models.DecimalField(max_digits=6, decimal_places=2)
     cost_per_user = models.DecimalField(max_digits=6, decimal_places=2, blank=True)
     flat = models.ForeignKey(Flat, blank=True, null=True)
